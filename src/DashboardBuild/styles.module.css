@@ -1,0 +1,41 @@
+.dashboardMain {
+    height: 100vh;
+    width: 100vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.father {
+    height: 100vh;
+    width:100vw;
+    position: relative;
+    overflow: hidden;
+}
+
+.video {
+    object-fit: cover;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+}
+
+.content {
+    position: relative;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    width: 70%;
+    margin:auto;
+  }
+
+.title {
+    color: white;
+}
