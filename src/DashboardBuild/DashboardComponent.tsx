@@ -1,4 +1,5 @@
 import styles from './styles.module.css'
+import YoutubeComponent from './youtubePlayerComponent/youtubeComponent'
 
 export default function DashboardComponent() {
     return(
@@ -7,7 +8,21 @@ export default function DashboardComponent() {
                 <div className={styles.father}>
                     <video src="/background.mp4" autoPlay muted loop className={styles.video}></video>
                     <div className={styles.content}>
-                        <h1 className={styles.title}>HOLA</h1>
+                    <div className="container-fluid text-center">
+                        <div className="row">
+                            <div className="col">
+                                <div className='youtube'>
+                                    <YoutubeComponent/>
+                                </div>
+                            </div>
+                            <div className="col">
+                            2 of 3
+                            </div>
+                            <div className="col">
+                            3 of 3
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
