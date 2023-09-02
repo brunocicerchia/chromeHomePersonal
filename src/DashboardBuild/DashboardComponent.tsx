@@ -10,16 +10,13 @@ export default function DashboardComponent() {
                     <div className={styles.content}>
                     <div className="container-fluid text-center">
                         <div className="row">
-                            <div className="col">
+                            <div className="col-md-8">
+                                2 of 3
+                            </div>
+                            <div className="col-md-4">
                                 <div className='youtube'>
-                                    <YoutubeComponent/>
+                                    
                                 </div>
-                            </div>
-                            <div className="col">
-                            2 of 3
-                            </div>
-                            <div className="col">
-                            3 of 3
                             </div>
                         </div>
                         </div>
