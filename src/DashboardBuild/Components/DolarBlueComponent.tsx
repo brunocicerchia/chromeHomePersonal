@@ -8,16 +8,16 @@ export default async function DolarBlueComponent() {
     <div className={styles.dolarbox}>
       <h3 className="title">USD/ARS</h3>
       <hr></hr>
-      <div className="row text">
+      <div className="row">
         <div className="col-md-6">
-          <p>COMPRA</p>
-          <p>
+          <p className="text">COMPRA</p>
+          <p className="text">
             <b>${data.blue.value_buy}</b>
           </p>
         </div>
         <div className="col-md-6">
-          <p>VENTA</p>
-          <p>
+          <p className="text">VENTA</p>
+          <p className="text">
             <b>${data.blue.value_sell}</b>
           </p>
         </div>
