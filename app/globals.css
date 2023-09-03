@@ -10,3 +10,7 @@
 .text {
     font-family: 'Noto Sans Mahajani', sans-serif;
 }
+
+h3 {
+    font-size: calc(1.3rem + .6vw) !important;
+}
