@@ -1,31 +1,22 @@
+import DolarBlueComponent from "../Components/DolarBlueComponent";
 import styles from "./styles.module.css";
 
-export default function BoxComponent() {
+export default async function BoxComponent() {
+  const res = await fetch("https://api.bluelytics.com.ar/v2/latest");
+  const data = await res.json();
+
   return (
-    <div className="row mt-5">
-      <div className="col-md-4 styles.container">
+    <div className="row mt-md-5 mt-2">
+      <div className="col-md-4">
         <div className={styles.container}>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
+          <DolarBlueComponent></DolarBlueComponent>
         </div>
       </div>
-      <div className="col-md-4 styles.container">
-        <div className={styles.container}>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-        </div>
+      <div className="col-md-4">
+        <div className={styles.container}></div>
       </div>
-      <div className="col-md-4 styles.container">
-        <div className={styles.container}>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-          <h2 style={{ color: "white" }}>FALOPA</h2>
-        </div>
+      <div className="col-md-4">
+        <div className={styles.container}></div>
       </div>
     </div>
   );
