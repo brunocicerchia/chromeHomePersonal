@@ -5,10 +5,12 @@
 
 .title {
     font-family: 'ADLaM Display';
+    margin-bottom: 8px;
 }
 
 .text {
     font-family: 'Noto Sans Mahajani', sans-serif;
+    margin-bottom: 16px;
 }
 
 h3 {
