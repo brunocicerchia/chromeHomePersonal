@@ -1,5 +1,5 @@
-import BoxComponent from "../BoxComponent/boxComponent";
+import LeftBoxComponent from "../BoxComponent/LeftBoxComponent";
 
 export default function LeftComponent() {
-  return <BoxComponent></BoxComponent>;
+  return <LeftBoxComponent></LeftBoxComponent>;
 }

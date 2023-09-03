@@ -19,10 +19,10 @@ export default function DashboardComponent() {
           <div className={styles.content}>
             <div className="container-fluid text-center">
               <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-9">
                   <LeftComponent></LeftComponent>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <RightComponent></RightComponent>
                 </div>
               </div>
