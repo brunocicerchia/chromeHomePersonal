@@ -7,7 +7,7 @@ export default async function DolarBlueComponent() {
   return (
     <div className={styles.dolarbox}>
       <h3 className="title">USD/ARS</h3>
-      <hr></hr>
+      <hr style={{ marginTop: "16px" }}></hr>
       <div className="row">
         <div className="col-md-6">
           <p className="text">COMPRA</p>
