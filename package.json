@@ -20,6 +20,7 @@
     "bootstrap": "^5.3.1",
     "date-fns": "^2.30.0",
     "next": "13.4.19",
+    "nextjs-redirect": "^6.0.1",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-bootstrap": "^2.8.0",
