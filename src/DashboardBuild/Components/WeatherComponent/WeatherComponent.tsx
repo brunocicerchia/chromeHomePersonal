@@ -14,7 +14,7 @@ export default function WeatherComponent() {
     location.latitude +
     "&lon=" +
     location.longitude +
-    "&exclude=hourly,daily&unit=metric&appid=a33d4d5bacd512f38ab0d33304c250a5";
+    "&exclude=hourly,daily&unit=metric&appid=";
 
   //create geolocation function
   const geoLocation = () => {

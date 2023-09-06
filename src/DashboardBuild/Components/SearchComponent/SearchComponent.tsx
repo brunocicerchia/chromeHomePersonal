@@ -6,7 +6,6 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
 let state = true;
-import redirect from "nextjs-redirect";
 
 export default function SearchComponent() {
   const [buttonText, setButtonText] = useState("Google");
