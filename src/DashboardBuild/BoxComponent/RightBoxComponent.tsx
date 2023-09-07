@@ -7,7 +7,9 @@ export default function RightBoxComponent() {
     <div className="row mt-md-5 mt-2">
       <div>
         <SearchComponent></SearchComponent>
-        <WeatherComponent></WeatherComponent>
+        <div className={styles.container}>
+          <WeatherComponent></WeatherComponent>
+        </div>
       </div>
     </div>
   );
