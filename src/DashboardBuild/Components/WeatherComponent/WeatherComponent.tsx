@@ -11,7 +11,7 @@ export default function WeatherComponent() {
     temperature: 0,
     humidity: 0,
     wind: 0,
-    code: [],
+    code: "",
     city: "",
     clouds: 0,
     rain: 0,
@@ -23,7 +23,7 @@ export default function WeatherComponent() {
     location.latitude +
     "&lon=" +
     location.longitude +
-    "&exclude=hourly,daily&appid=a33d4d5bacd512f38ab0d33304c250a5&units=metric420pa lonegros";
+    "&exclude=hourly,daily&appid=a33d4d5bacd512f38ab0d33304c250a5&units=metric";
 
   //create geolocation function
   const geoLocation = () => {
@@ -50,7 +50,7 @@ export default function WeatherComponent() {
         city: data.name,
         clouds: data.clouds.all,
         rain: data.rain,
-        code: data.weather, //ESTO ES UN ARRAY. TENDRIA QUE VER COMO HACER PARA SETEAR
+        code: "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png" //ESTO ES UN ARRAY. TENDRIA QUE VER COMO HACER PARA SETEAR
       });
     }
   };
@@ -65,15 +65,20 @@ export default function WeatherComponent() {
     }
   }, [location]);
 
+  console.log(temp.code)
+
   return (
-    <div>
-      <h2>{temp.city}</h2>
-      <p>Temperatura: {temp.temperature}</p>
-      <p>Humedad: {temp.humidity}%</p>
-      <p>Nubes: {temp.clouds}%</p>
-      <p>Lluvia: {temp.rain}%</p>
-      <p>Viento: {temp.wind} m/s</p>
-      <p>Code: </p> {/*ACA TENDRIA QUE HACER UN MAP PARA RECORRER EL ARRAY*/}
+    <div className={styles.container}>
+      <div className="align-self-center">
+        <h2>{temp.city}</h2>
+        <img src={temp.code} alt="weather" className="text-center img-fluid"/>
+        <h1>{temp.temperature}°</h1>
+      </div>    
     </div>
   );
 }
+
+//<p>Humedad: {temp.humidity}%</p>
+//<p>Nubes: {temp.clouds}%</p>
+//<p>Lluvia: {temp.rain}%</p>
+//<p>Viento: {temp.wind} m/s</p>

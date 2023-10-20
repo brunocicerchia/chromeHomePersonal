@@ -9,7 +9,3 @@
 .container:hover {
     box-shadow: 0 14px 28px rgba(27,27,27,0.22), 0 10px 10px rgba(27, 27, 27, 0.22);
 }
-
-.dolarBlue img {
-    display: none;
-}
