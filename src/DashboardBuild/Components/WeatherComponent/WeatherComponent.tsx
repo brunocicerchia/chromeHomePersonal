@@ -70,9 +70,11 @@ export default function WeatherComponent() {
   return (
     <div className={styles.container}>
       <div className="align-self-center">
-        <h2>{temp.city}</h2>
-        <img src={temp.code} alt="weather" className="text-center img-fluid"/>
-        <h1>{temp.temperature}°</h1>
+        <h2 className="title">{temp.city}</h2>
+        <div className="d-flex justify-content-center">
+          <img src={temp.code} alt="weather" className="text-center img-fluid"/>
+        </div>
+        <h1 className="text">{Math.round(temp.temperature)}°</h1>
       </div>    
     </div>
   );
