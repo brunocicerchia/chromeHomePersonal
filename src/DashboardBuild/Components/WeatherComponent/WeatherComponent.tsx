@@ -2,6 +2,8 @@
 
 import styles from "./styles.module.css";
 import { useState, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 //React component
 export default function WeatherComponent() {
@@ -14,8 +16,12 @@ export default function WeatherComponent() {
     code: "",
     city: "",
     clouds: 0,
-    rain: 0,
   });
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   //CREATE CONST FOR API KEY NAMED WEATHER_API_KEY
   const key =
@@ -49,7 +55,6 @@ export default function WeatherComponent() {
         wind: data.wind.speed,
         city: data.name,
         clouds: data.clouds.all,
-        rain: data.rain,
         code: "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png" //ESTO ES UN ARRAY. TENDRIA QUE VER COMO HACER PARA SETEAR
       });
     }
@@ -69,18 +74,30 @@ export default function WeatherComponent() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.moreInfo}>
+        <Button variant="primary" onClick={handleShow}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+        </svg>
+        </Button>
+      </div>
       <div className="align-self-center">
         <h2 className="title">{temp.city}</h2>
         <div className="d-flex justify-content-center">
           <img src={temp.code} alt="weather" className="text-center img-fluid"/>
         </div>
         <h1 className="text">{Math.round(temp.temperature)}°</h1>
-      </div>    
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title className="title">{temp.city}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="text">Humedad: {temp.humidity}%</p>
+          <p className="text">Nubes: {temp.clouds}%</p>
+          <p className="text">Viento: {temp.wind} m/s</p>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
-
-//<p>Humedad: {temp.humidity}%</p>
-//<p>Nubes: {temp.clouds}%</p>
-//<p>Lluvia: {temp.rain}%</p>
-//<p>Viento: {temp.wind} m/s</p>

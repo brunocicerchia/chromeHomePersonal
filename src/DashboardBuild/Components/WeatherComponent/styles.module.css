@@ -7,8 +7,15 @@
     margin-top: 25px;
     padding-top: 10px;
     padding-bottom: 10px;
+    position: relative;
 }
 
 .container:hover {
     box-shadow: 0 14px 28px rgba(27,27,27,0.22), 0 10px 10px rgba(27, 27, 27, 0.22);
+}
+
+.moreInfo {
+    position: absolute;
+    right: 5%;
+    top: 5%;
 }
