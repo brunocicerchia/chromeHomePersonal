@@ -11,13 +11,20 @@ import VideoComponent from "./Components/VideoComponent/VideoComponent";
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 
 export default function DashboardComponent() {
 
+  //State for Wallpaper Configuration Modal
   const [show, setShow] = useState(false);
+  const [bg, setBg] = useState("background1");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const alertClicked = (number: any) => {
+    setBg("background" + number);
+  };
 
   return (
     <div style={styles}>
@@ -29,7 +36,7 @@ export default function DashboardComponent() {
           </svg>
         </Button>
         <div className={styles.father}>
-          <VideoComponent video="background"></VideoComponent>
+          <VideoComponent video={bg}></VideoComponent>
           <FastComponent></FastComponent>
           <div className={styles.content}>
             <div className="container-fluid text-center">
@@ -45,14 +52,34 @@ export default function DashboardComponent() {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          
-        </Modal.Footer>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-md-4" style={{marginBottom: 15}}>
+              <Card onClick={() => alertClicked(1)}>
+                <Card.Img variant="top" src="background1.gif" />
+              </Card>
+            </div>
+            <div className="col-md-4" style={{marginBottom: 15}}>
+              <Card onClick={() => alertClicked(2)}>
+                <Card.Img variant="top" src="background2.gif" />
+              </Card>
+            </div>
+            <div className="col-md-4" style={{marginBottom: 15}}>
+              <Card onClick={() => alertClicked(3)}>
+                <Card.Img variant="top" src="background3.gif" />
+              </Card>
+            </div>
+            <div className="col-md-4" style={{marginBottom: 15}}>
+              <Card onClick={() => alertClicked(4)}>
+                <Card.Img variant="top" src="background4.gif" />
+              </Card>
+            </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </div>
   );
