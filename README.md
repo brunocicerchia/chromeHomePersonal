@@ -1,34 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# chromeHomePersonal
 
-## Getting Started
+Este proyecto es una aplicación web construida con React y Next.js que reemplaza la página de "Nueva Pestaña" en Google Chrome. Ofrece una experiencia personalizada y totalmente interactiva para los usuarios cuando abren una nueva pestaña en su navegador. La aplicación permite a los usuarios ver widgets informativos, agregar tareas pendientes, ver el clima actual y acceder a marcadores rápidos, todo desde una única interfaz intuitiva y atractiva.
 
-First, run the development server:
+## Características Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- **Widgets Informativos:** Proporciona información útil como noticias, datos meteorológicos y citas inspiradoras directamente en la página de nueva pestaña.
+- **Gestión de Tareas:** Permite a los usuarios crear, editar y eliminar tareas pendientes para ayudarles a mantenerse organizados. IN PROGRESS
+- **Visor de monedas:** Permite ver en tiempo real cualquier paridad tanto de monedas nacionales como crypto. IN PROGRESS
+- **Pronóstico del Tiempo:** Muestra el pronóstico del tiempo actual y futuro para la ubicación del usuario, proporcionando información precisa y actualizada. DONE
+- **Marcadores Rápidos:** Ofrece acceso rápido a sitios web favoritos a través de marcadores personalizables y fáciles de gestionar. DONE
+- **Seccion deportes:** Permite visualizar los resutados de tu equipo deseado(incluye tambien esports) IN PROGRESS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologías Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **React:** Utilizado para la creación de componentes interactivos y dinámicos.
+- **Next.js:** Framework de React que facilita la creación de aplicaciones web rápidas y eficientes.
+- **APIs Externas:** Integración con diversas APIs para obtener datos en tiempo real, incluyendo noticias y pronóstico del tiempo.
+- **React-Bootstrap:** Libreria que permite integrar de mejor manera bootstrap en proyectos React
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Instrucciones de Uso
 
-## Learn More
+** Puedes visualizar el sitio web en: https://chrome-home-personal.vercel.app/ **
 
-To learn more about Next.js, take a look at the following resources:
+## Contribución
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+¡Las contribuciones son bienvenidas! Si deseas contribuir a este proyecto, asegúrate de crear un *fork* del repositorio, realizar tus cambios y enviar un *pull request*.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Licencia
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este proyecto está bajo la licencia [MIT], lo que significa que puedes utilizar, modificar y distribuir el código de acuerdo con los términos de dicha licencia.
