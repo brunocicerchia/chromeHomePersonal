@@ -65,7 +65,7 @@ export default function DashboardComponent() {
             </div>
             <div className="col-md-4" style={{marginBottom: 15}}>
               <Card onClick={() => alertClicked(2)}>
-                <Card.Img variant="top" src="background2.gif" />
+                <Card.Img variant="top" src="backgroundawdwa2.gif" />
               </Card>
             </div>
             <div className="col-md-4" style={{marginBottom: 15}}>
