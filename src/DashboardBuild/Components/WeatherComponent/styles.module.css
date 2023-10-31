@@ -14,8 +14,13 @@
     box-shadow: 0 14px 28px rgba(27,27,27,0.22), 0 10px 10px rgba(27, 27, 27, 0.22);
 }
 
+.container:hover .moreInfo {
+    visibility: visible;
+}
+
 .moreInfo {
     position: absolute;
     right: 5%;
     top: 5%;
+    visibility: hidden;
 }
