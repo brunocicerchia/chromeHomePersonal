@@ -13,15 +13,17 @@
     overflow: hidden;
 }
 
-.content {
-    display: flex;
-    z-index: 10;
+.video {
+    object-fit: cover;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
 }
 
-.selectVideo {
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    color: white;
-    z-index: 155;
+.content {
+    position: relative;
+    display: flex;
+    z-index: 10;
 }
