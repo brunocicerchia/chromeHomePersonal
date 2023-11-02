@@ -9,7 +9,7 @@ export default function DashboardComponent() {
       <div className={styles.dashboardMain}>
         <div className={styles.father}>
           <video
-            src="/background.mp4"
+            src="https://cdn.discordapp.com/attachments/1067945589570031647/1168525359340339200/Background1.webm"
             autoPlay
             muted
             loop
