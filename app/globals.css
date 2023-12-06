@@ -1,10 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Noto+Sans+Mahajani&display=swap');
 
 .title {
-    font-family: 'ADLaM Display';
+    /* font-family: 'ADLaM Display'; */
     margin-bottom: 8px;
 }
 

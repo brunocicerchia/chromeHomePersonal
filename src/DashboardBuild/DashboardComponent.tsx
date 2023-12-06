@@ -1,9 +1,10 @@
 'use client'
 import styles from "./styles.module.css";
-import LeftComponent from "@/src/DashboardBuild/Containers/LeftComponent";
-import RightComponent from "@/src/DashboardBuild/Containers/RightComponent";
-import FastComponent from "@/src/DashboardBuild/FastComponent/FastComponent";
+import LeftComponent from "./Containers/LeftComponent";
+import RightComponent from "./Containers/RightComponent";
+import FastComponent from "./FastComponent/FastComponent";
 import { useState } from "react";
+import Image from 'next/image'
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -15,12 +16,15 @@ import VideoComponent from "./Components/VideoComponent/VideoComponent";
 
 export default function DashboardComponent() {
 
-  const [wallpaper, setWallpaper] = useState("https://cdn.discordapp.com/attachments/1173593342857183242/1173593982207545416/Background1.webm");
-  const [lgShow, setLgShow] = useState(false);
+  const wallpaperList = [
+    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593982207545416/Background1.webm",
+    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593983914623046/Background2.webm",
+    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593984808005722/Background3.webm",
+    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593986049527818/Background4.webm"
+  ]
 
-  function changeWallpaper(video: string) {
-    setWallpaper(video)
-  }
+  const [wallpaper, setWallpaper] = useState(wallpaperList[0]);
+  const [lgShow, setLgShow] = useState(false);
 
   return (
     <div style={styles}>
@@ -63,10 +67,10 @@ export default function DashboardComponent() {
         <Modal.Body>
             <Container>
               <Row className="text-center">
-                <Col><p onClick={() => setWallpaper("https://cdn.discordapp.com/attachments/1173593342857183242/1173593982207545416/Background1.webm")}>1</p></Col>
-                <Col><p onClick={() => setWallpaper("https://cdn.discordapp.com/attachments/1173593342857183242/1173593983914623046/Background2.webm")}>2</p></Col>
-                <Col><p onClick={() => setWallpaper("https://cdn.discordapp.com/attachments/1173593342857183242/1173593984808005722/Background3.webm")}>3</p></Col>
-                <Col><p onClick={() => setWallpaper("https://cdn.discordapp.com/attachments/1173593342857183242/1173593986049527818/Background4.webm")}>4</p></Col>
+                <Col className={styles.gif}><a href="#"><Image onClick={() => setWallpaper(wallpaperList[0])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788832283238450/Background1.gif" width={100} height={100} alt="Wallpaper 1"/></a></Col>
+                <Col className={styles.gif}><a href="#"><Image onClick={() => setWallpaper(wallpaperList[1])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788831821873272/Background2.gif" width={100} height={100} alt="Wallpaper 2"/></a></Col>
+                <Col className={styles.gif}><a href="#"><Image onClick={() => setWallpaper(wallpaperList[2])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788831188537475/Background3.gif" width={100} height={100} alt="Wallpaper 3"/></a></Col>
+                <Col className={styles.gif}><a href="#"><Image onClick={() => setWallpaper(wallpaperList[3])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788830718763069/background4.gif" width={100} height={100} alt="Wallpaper 4"/></a></Col>
               </Row>
             </Container>
         </Modal.Body>
