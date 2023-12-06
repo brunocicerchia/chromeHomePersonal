@@ -82,7 +82,7 @@ export default function WeatherComponent() {
         </Button>
       </div>
       <div className="align-self-center">
-        <h2 className="title">{temp.city}</h2>
+        <h3 className="title">{temp.city}</h3>
         <div className="d-flex justify-content-center">
           <img src={temp.code} alt="weather" className="text-center img-fluid"/>
         </div>
