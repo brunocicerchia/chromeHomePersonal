@@ -1,4 +1,4 @@
-import DashboardComponent from '@/src/DashboardBuild/DashboardComponent'
+import DashboardComponent from 'DashboardBuild/DashboardComponent';
 
 export default function Home() {
   return (

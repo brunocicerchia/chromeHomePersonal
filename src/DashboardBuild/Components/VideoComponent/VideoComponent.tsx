@@ -3,28 +3,18 @@ import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 export default function VideoComponent(props: any) {
-  const [wallpaper, setWallaper] = useState("background1");
+  const [wallpaper, setWallpaper] = useState("https://cdn.discordapp.com/attachments/1173593342857183242/1173593982207545416/Background1.webm");
 
   //UseEffect props
   useEffect(() => {
     console.log(props.video)
     //Fetch the video
-    fetch(props.video + ".webm")
-      .then((res) => {
-        if (res.status === 200) {
-          setWallaper(props.video)
-        } else {
-          console.log("Video not found!"); 
-        }
-      })
-      .catch((err) => {
-        console.log("Error: ", err);
-      });
+    setWallpaper(props.video)
   }, [props])
 
   return (
     <video
-    src={wallpaper + ".webm"}
+    src={wallpaper}
     autoPlay
     muted
     loop

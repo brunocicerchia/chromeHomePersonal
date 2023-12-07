@@ -7,12 +7,6 @@ export default function LeftBoxComponent() {
       <div className="col-md-4">
           <DolarBlueComponent></DolarBlueComponent>
       </div>
-      <div className="col-md-4">
-        <div className={styles.container}></div>
-      </div>
-      <div className="col-md-4">
-        <div className={styles.container}></div>
-      </div>
     </div>
   );
 }
