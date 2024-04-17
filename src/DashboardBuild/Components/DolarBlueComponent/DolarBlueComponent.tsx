@@ -10,21 +10,44 @@ import Form from 'react-bootstrap/Form';
 
 export default function DolarBlueComponent() {
 
-  const [dolarBlue, setDolarBlue] = useState({sell: 0, buy:0});
+  const [currencyPrice, setCurrencyPrice] = useState({sell: 0, buy:0});
+  const [currency, setCurrency] = useState(0);
+
+  const currencyList = [
+    { id: 0, name: "USD/ARS", uri: "" },
+    { id: 1, name: "USD/BTC", uri: "https://api.coinbase.com/v2/exchange-rates?currency=BTC" },
+    { id: 2, name: "USD/ETH", uri: "https://api.coinbase.com/v2/exchange-rates?currency=ETH" }
+  ];
 
   useEffect(() => {
-    const fetchDolarBlue = async () => {
-      const res = await fetch("https://api.bluelytics.com.ar/v2/latest");
-      const data = await res.json();
-      setDolarBlue({sell: data.blue.value_sell, buy: data.blue.value_buy});
-    };
-    fetchDolarBlue();
-  }, []);
+    console.log(currency);
+    if(currency == 0) {
+      console.log("fetching dolar blue")
+      fetchDolarBlue();
+    } else {
+      console.log("fetching crypto")
+      getCryptoPrice(currency);
+    }
+  }, [currency]);
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  //FETCH PRECIO DOLAR BLUE
+  const fetchDolarBlue = async () => {
+        const res = await fetch("https://api.bluelytics.com.ar/v2/latest");
+        const data = await res.json();
+        setCurrencyPrice({sell: data.blue.value_sell, buy: data.blue.value_buy});
+      };
+
+  //FETCH PRECIO CRYPTO SELECCIONADA
+  const getCryptoPrice = async (currency) => {
+        const res = await fetch(currencyList[currency].uri)
+        const data = await res.json();
+        setCurrencyPrice({sell: -1, buy: data.data.rates.USD});
+  };
 
   return (
     <div className={styles.container}>
@@ -38,16 +61,10 @@ export default function DolarBlueComponent() {
       <h3 className="title">USD/ARS</h3>
       <hr style={{ marginBottom: "16px" }}></hr>
       <div className="row">
-        <div className="col-md-6">
-          <p className="text">COMPRA</p>
+        <div className="col-md-12">
+          <p className="text">Precio</p>
           <p className="text">
-            <b>${dolarBlue.buy}</b>
-          </p>
-        </div>
-        <div className="col-md-6">
-          <p className="text">VENTA</p>
-          <p className="text">
-            <b>${dolarBlue.sell}</b>
+            <b>${currencyPrice.buy}</b>
           </p>
         </div>
       </div>
@@ -64,7 +81,7 @@ export default function DolarBlueComponent() {
             <Tab eventKey="divisas" title="Divisas">
               <Form>
                 <Form.Check
-                        checked
+                        onClick={() => setCurrency(0)}
                         type={`radio`}
                         label={`USD/ARS`}
                         id={`usd-ars`}
@@ -72,7 +89,20 @@ export default function DolarBlueComponent() {
                 </Form>
             </Tab>
             <Tab eventKey="crypto" title="Crypto">
-              To be continue
+              <Form>
+                <Form.Check
+                  onClick={() => setCurrency(1)}
+                  type={`radio`}
+                  label={`USD/BTC`}
+                  id={`usd-btc`}
+                />
+                <Form.Check
+                  onClick={() => setCurrency(2)}
+                  type={`radio`}
+                  label={`USD/ETH`}
+                  id={`usd-eth`}
+                />
+              </Form>
             </Tab>
           </Tabs>
         </Modal.Body>
