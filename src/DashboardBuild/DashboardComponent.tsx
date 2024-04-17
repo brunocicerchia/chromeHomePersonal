@@ -1,12 +1,17 @@
 'use client'
 import styles from "./styles.module.css";
+//React Components
 import LeftComponent from "./Containers/LeftComponent";
 import RightComponent from "./Containers/RightComponent";
 import FastComponent from "./FastComponent/FastComponent";
 import { useState, useEffect } from "react";
+//login and register imports
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
+//Database imports
+import { db } from "./firebase";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -47,7 +52,7 @@ export default function DashboardComponent() {
       if (user) {
         console.log("Logeado")
         const uid = user.uid;
-        console.log(uid)
+        getUserConfig(uid);
       } else {
         console.log("No logeado")
         handleShow();
@@ -63,19 +68,17 @@ export default function DashboardComponent() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user);
             window.location.reload();
-            // ...
+            createUserDb(user.uid)
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
-            // ..
         });
   }
 
-  //Register Function
+  //Login Function
   const onLogin = (e) => {
     e.preventDefault();
     
@@ -83,7 +86,6 @@ export default function DashboardComponent() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user);
             window.location.reload();
         })
         .catch((error) => {
@@ -105,6 +107,30 @@ export default function DashboardComponent() {
         });
   }
 
+  //Create user in database
+  const createUserDb = async (uid) => {
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        uid: uid,
+        wallpaper: 0,
+        currency: 0
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  //Get user configuration
+  const getUserConfig = async (uid) => {
+    const q = query(collection(db, "users"), where("uid", "==", uid));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  }
 
   return (
     <div style={styles}>
