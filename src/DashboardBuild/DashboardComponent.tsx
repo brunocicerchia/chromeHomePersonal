@@ -3,7 +3,10 @@ import styles from "./styles.module.css";
 import LeftComponent from "./Containers/LeftComponent";
 import RightComponent from "./Containers/RightComponent";
 import FastComponent from "./FastComponent/FastComponent";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { auth } from "./firebase";
+import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
+import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -13,18 +16,95 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import VideoComponent from "./Components/VideoComponent/VideoComponent";
 import Image from 'react-bootstrap/Image';
+import Form from 'react-bootstrap/Form';
 
 export default function DashboardComponent() {
+  
+  //Login credential state
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  //Wallpaper change state
   const wallpaperList = [
-    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593982207545416/Background1.webm",
-    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593983914623046/Background2.webm",
-    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593984808005722/Background3.webm",
-    "https://cdn.discordapp.com/attachments/1173593342857183242/1173593986049527818/Background4.webm"
+    "wallpapers/Background1.webm",
+    "wallpapers/Background2.webm",
+    "wallpapers/Background3.webm",
+    "wallpapers/Background4.webm"
   ]
 
   const [wallpaper, setWallpaper] = useState(wallpaperList[0]);
   const [lgShow, setLgShow] = useState(false);
+
+  //Login Modal state
+  const [loginShow, setLoginShow] = useState(false);
+
+  const handleClose = () => setLoginShow(false);
+  const handleShow = () => setLoginShow(true);
+
+  //Login check
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Logeado")
+        const uid = user.uid;
+        console.log(uid)
+      } else {
+        console.log("No logeado")
+        handleShow();
+      }
+    });
+  },[onAuthStateChanged]);
+
+  //Register Function
+  const onRegister = async (e) => {
+    e.preventDefault();
+    
+    await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+            window.location.reload();
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+            // ..
+        });
+  }
+
+  //Register Function
+  const onLogin = (e) => {
+    e.preventDefault();
+    
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+            window.location.reload();
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+        });
+  }
+
+  //Logout function
+  const handleLogout = () => {               
+        signOut(auth).then(() => {
+        // Sign-out successful.
+            handleClose();
+            console.log("Signed out successfully")
+            window.location.reload();
+        }).catch((error) => {
+        // An error happened.
+        });
+  }
+
 
   return (
     <div style={styles}>
@@ -68,19 +148,65 @@ export default function DashboardComponent() {
             <Container>
               <Row className="text-center">
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[0])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788832283238450/Background1.gif" thumbnail alt="Wallpaper 1"/></a>
+                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[0])} src="wallpapers/Background1.gif" thumbnail alt="Wallpaper 1"/></a>
                 </Col>
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[1])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788831821873272/Background2.gif" thumbnail alt="Wallpaper 2"/></a>
+                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[1])} src="wallpapers/Background2.gif" thumbnail alt="Wallpaper 2"/></a>
                 </Col>
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[2])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788831188537475/Background3.gif" thumbnail alt="Wallpaper 3"/></a>
+                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[2])} src="wallpapers/Background3.gif" thumbnail alt="Wallpaper 3"/></a>
                 </Col>
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[3])} src="https://cdn.discordapp.com/attachments/1173593342857183242/1181788830718763069/background4.gif" thumbnail alt="Wallpaper 4"/></a>
+                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[3])} src="wallpapers/background4.gif" thumbnail alt="Wallpaper 4"/></a>
                 </Col>
               </Row>
             </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleLogout}>
+            Cerrar Sesion
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={loginShow}
+        backdrop="static"
+        keyboard={false}
+        centered>
+        <Modal.Header>
+          <Modal.Title>Bienvenido!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h2>Iniciar Sesion</h2>
+          <Form>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" onChange={(e)=>setEmail(e.target.value)}/>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control type="password" onChange={(e)=>setPassword(e.target.value)} />
+            </Form.Group>
+            <Button variant="primary" type="submit" onClick={onLogin}>
+              Iniciar Sesion
+            </Button>
+          </Form>
+          <hr></hr>
+          <h2>Crear cuenta</h2>
+          <Form>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" onChange={(e)=>setEmail(e.target.value)}/>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control type="password" onChange={(e)=>setPassword(e.target.value)} />
+            </Form.Group>
+            <Button variant="primary" type="submit" onClick={onRegister}>
+              Submit
+            </Button>
+          </Form>
         </Modal.Body>
       </Modal>
     </div>
