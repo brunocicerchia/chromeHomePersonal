@@ -15,7 +15,7 @@ export default function WeatherComponent() {
     wind: 0,
     code: "",
     city: "",
-    clouds: 0,
+    clouds: 0
   });
 
   const [show, setShow] = useState(false);
@@ -47,7 +47,7 @@ export default function WeatherComponent() {
   const fetchWeather = async () => {
     const res = await fetch(`${key}`);
     const data = await res.json();
-    console.log(data);
+    //console.log(data);
     if (data.main.name !== "Globe") {
       setTemp({
         temperature: data.main.temp,
@@ -70,7 +70,7 @@ export default function WeatherComponent() {
     }
   }, [location]);
 
-  console.log(temp.code)
+  //console.log(temp.code)
 
   return (
     <div className={styles.container}>
