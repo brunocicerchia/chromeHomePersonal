@@ -11,7 +11,7 @@ import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebas
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 //Database imports
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, setDoc, doc } from "firebase/firestore";
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -38,6 +38,7 @@ export default function DashboardComponent() {
   ]
 
   const [wallpaper, setWallpaper] = useState(wallpaperList[0]);
+  const [config, setConfig] = useState([]);
   const [lgShow, setLgShow] = useState(false);
 
   //Login Modal state
@@ -69,6 +70,7 @@ export default function DashboardComponent() {
             // Signed in
             const user = userCredential.user;
             window.location.reload();
+            //Create user in database
             createUserDb(user.uid)
         })
         .catch((error) => {
@@ -110,12 +112,11 @@ export default function DashboardComponent() {
   //Create user in database
   const createUserDb = async (uid) => {
     try {
-      const docRef = await addDoc(collection(db, "users"), {
-        uid: uid,
-        wallpaper: 0,
-        currency: 0
+      // Add a new document in collection "cities" with "LA" as id
+      await setDoc(doc(db, "users", uid), {
+        currency: 0,
+        wallpaper: 0
       });
-      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -127,8 +128,9 @@ export default function DashboardComponent() {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+      const cfg = doc.data();
+      setWallpaper(wallpaperList[cfg.wallpaper]);
+      setConfig(cfg.currency);
     });
   }
 
@@ -149,10 +151,10 @@ export default function DashboardComponent() {
             <div className="container-fluid text-center">
               <div className="row">
                 <div className="col-md-9">
-                  <LeftComponent></LeftComponent>
+                  <LeftComponent userConfig={config}></LeftComponent>
                 </div>
                 <div className="col-md-3">
-                  <RightComponent></RightComponent>
+                  <RightComponent userConfig={config}></RightComponent>
                 </div>
               </div>
             </div>
