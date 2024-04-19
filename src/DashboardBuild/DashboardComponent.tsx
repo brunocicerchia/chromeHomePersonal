@@ -11,7 +11,7 @@ import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebas
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 //Database imports
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, query, where, setDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, setDoc, doc, documentId } from "firebase/firestore";
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -123,14 +123,15 @@ export default function DashboardComponent() {
   }
 
   //Get user configuration
-  const getUserConfig = async (uid) => {
-    const q = query(collection(db, "users"), where("uid", "==", uid));
+  const getUserConfig = async (uid: string) => {
+    const q = query(collection(db, "users"), where(documentId(), '==', uid));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       const cfg = doc.data();
       setWallpaper(wallpaperList[cfg.wallpaper]);
       setConfig(cfg.currency);
+      console.log(config)
     });
   }
 

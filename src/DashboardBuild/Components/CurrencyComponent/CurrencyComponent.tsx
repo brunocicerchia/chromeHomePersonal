@@ -12,6 +12,7 @@ import { auth, db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 export default function CurrencyComponent(currencyServer) {
+  console.log(currencyServer)
 
   const [currency, setCurrency] = useState({});
   const [currencyPrice, setCurrencyPrice] = useState(0);
@@ -30,7 +31,7 @@ export default function CurrencyComponent(currencyServer) {
 
         setUserUid(user.uid);
         console.log("El usuario esta logeado")
-        //console.log(typeof currencyServer.currency.userConfig)
+        console.log(typeof currencyServer.currency.userConfig)
         if(typeof currencyServer.currency.userConfig == "number") {
           console.log("Seteando valor de servidor")
           setCurrency(currencyList[currencyServer.currency.userConfig])
