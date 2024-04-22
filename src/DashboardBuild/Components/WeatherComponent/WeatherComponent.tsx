@@ -23,13 +23,14 @@ export default function WeatherComponent() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
   //CREATE CONST FOR API KEY NAMED WEATHER_API_KEY
   const key =
     "https://api.openweathermap.org/data/2.5/weather?lat=" +
     location.latitude +
     "&lon=" +
     location.longitude +
-    "&exclude=hourly,daily&appid=a33d4d5bacd512f38ab0d33304c250a5&units=metric";
+    "&exclude=hourly,daily&appid=e847de3abd895ff0f4124dc243427437&units=metric";
 
   //create geolocation function
   const geoLocation = () => {
@@ -55,7 +56,7 @@ export default function WeatherComponent() {
         wind: data.wind.speed,
         city: data.name,
         clouds: data.clouds.all,
-        code: "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png" //ESTO ES UN ARRAY. TENDRIA QUE VER COMO HACER PARA SETEAR
+        code: "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png" 
       });
     }
   };

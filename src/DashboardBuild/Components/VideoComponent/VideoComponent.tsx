@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 export default function VideoComponent(props: any) {
-  const [wallpaper, setWallpaper] = useState("/wallpapers/Background1.webm");
+  const [wallpaper, setWallpaper] = useState("");
 
   //UseEffect props
   useEffect(() => {

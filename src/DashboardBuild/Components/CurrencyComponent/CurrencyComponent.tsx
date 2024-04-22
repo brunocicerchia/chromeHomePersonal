@@ -12,7 +12,7 @@ import { auth, db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 export default function CurrencyComponent(currencyServer) {
-  console.log(currencyServer)
+  //console.log(currencyServer)
 
   const [currency, setCurrency] = useState({});
   const [currencyPrice, setCurrencyPrice] = useState(0);
@@ -26,28 +26,31 @@ export default function CurrencyComponent(currencyServer) {
   ];
 
   useEffect(() => {
+    //console.log(currencyServer.currency)
     onAuthStateChanged(auth, (user) => {
       if (user) {
 
         setUserUid(user.uid);
-        console.log("El usuario esta logeado")
-        console.log(typeof currencyServer.currency.userConfig)
-        if(typeof currencyServer.currency.userConfig == "number") {
-          console.log("Seteando valor de servidor")
-          setCurrency(currencyList[currencyServer.currency.userConfig])
-          setCurrencyTitle(currencyList[currencyServer.currency.userConfig].name)
-          //console.log(currencyList[currencyServer.currency.userConfig].name)
-          //console.log(currencyList[currencyServer.currency.userConfig].uri)
-          if(currencyList[currencyServer.currency.userConfig].id == 0) {
-            console.log(currencyServer.currency.userConfig.uri)
-            console.log("fetching dolar blue")
+        //console.log("El usuario esta logeado")
+        //console.log(currencyServer.currency)
+        if(typeof currencyServer.currency == "number") {
+          //console.log("Seteando valor de servidor")
+          setCurrency(currencyList[currencyServer.currency])
+          setCurrencyTitle(currencyList[currencyServer.currency].name)
+          //console.log(currencyList[currencyServer.currency].name)
+          //console.log(currencyList[currencyServer.currency].uri)
+          if(currencyList[currencyServer.currency].id == 0) {
+            //console.log("fetching dolar blue")
             fetchDolarBlue();
           } else {
-              console.log("fetching crypto")
-              console.log(currencyList[currencyServer.currency.userConfig].uri)
-              getCryptoPrice(currencyList[currencyServer.currency.userConfig].uri)
+              //console.log("fetching crypto")
+              getCryptoPrice(currencyList[currencyServer.currency].uri)
           }
         }
+      }
+      else {
+        setCurrencyTitle(currencyList[0].name)
+        fetchDolarBlue();
       }
     });
         

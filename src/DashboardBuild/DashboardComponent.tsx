@@ -1,9 +1,9 @@
 'use client'
 import styles from "./styles.module.css";
 //React Components
-import LeftComponent from "./Containers/LeftComponent";
-import RightComponent from "./Containers/RightComponent";
 import FastComponent from "./FastComponent/FastComponent";
+import RightBoxComponent from "./BoxComponent/RightBoxComponent";
+import LeftBoxComponent from "./BoxComponent/LeftBoxComponent";
 import { useState, useEffect } from "react";
 //login and register imports
 import { auth } from "./firebase";
@@ -11,7 +11,7 @@ import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebas
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 //Database imports
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, query, where, setDoc, doc, documentId } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, setDoc, doc, documentId, updateDoc } from "firebase/firestore";
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -28,16 +28,24 @@ export default function DashboardComponent() {
   //Login credential state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [uid, setUid] = useState('');
 
   //Wallpaper change state
   const wallpaperList = [
-    "wallpapers/Background1.webm",
-    "wallpapers/Background2.webm",
-    "wallpapers/Background3.webm",
-    "wallpapers/Background4.webm"
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background1.mp4?alt=media&token=31f670a7-e7c9-4c1d-acd5-861f4b5bee87",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background2.mp4?alt=media&token=fe913967-0c37-489c-9c67-dda7b0349cb4",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background3.mp4?alt=media&token=06443005-449e-4d6d-b157-3150b5b85301",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background4.mp4?alt=media&token=e49a952d-5209-4055-a5ab-7e034d783b5f",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background5.mp4?alt=media&token=e4e2fc6d-9c1d-4949-a816-d79043f4f1d7",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background6.mp4?alt=media&token=9d87ce1b-3761-44c5-8b72-b438e118080f",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background7.mp4?alt=media&token=2c427f2a-49c2-48ea-8177-f2d1def9b643",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background8.mp4?alt=media&token=176f6d9e-2de5-4d9f-913c-0947f281a87d",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background9.mp4?alt=media&token=b4eecc70-78ce-4dee-a3b4-7699d0ef2f63",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background10.mp4?alt=media&token=1c3c7467-60bd-4a06-9c37-992b44964b6a",
+    "https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background11.mp4?alt=media&token=68fe403d-c10c-447e-908b-7db2e6d4022f"
   ]
 
-  const [wallpaper, setWallpaper] = useState(wallpaperList[0]);
+  const [wallpaper, setWallpaper] = useState("");
   const [config, setConfig] = useState([]);
   const [lgShow, setLgShow] = useState(false);
 
@@ -52,10 +60,11 @@ export default function DashboardComponent() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("Logeado")
-        const uid = user.uid;
-        getUserConfig(uid);
+        setUid(user.uid);
+        getUserConfig(user.uid);
       } else {
         console.log("No logeado")
+        setWallpaper(wallpaperList[4]);
         handleShow();
       }
     });
@@ -88,7 +97,8 @@ export default function DashboardComponent() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            window.location.reload();
+            //window.location.reload();
+            handleClose();
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -124,6 +134,7 @@ export default function DashboardComponent() {
 
   //Get user configuration
   const getUserConfig = async (uid: string) => {
+    console.log(uid);
     const q = query(collection(db, "users"), where(documentId(), '==', uid));
 
     const querySnapshot = await getDocs(q);
@@ -131,8 +142,23 @@ export default function DashboardComponent() {
       const cfg = doc.data();
       setWallpaper(wallpaperList[cfg.wallpaper]);
       setConfig(cfg.currency);
-      console.log(config)
     });
+  }
+
+  //Currency Setter
+  const wallpaperSetter = (numero) => {
+    setWallpaper(wallpaperList[numero])
+    updateWallpaper(numero)
+  }
+
+  //Update currency in database
+  const updateWallpaper = async (numero) => {
+    const userRef = doc(db, "users", uid);
+
+    // Set the "capital" field of the city 'DC'
+    await updateDoc(userRef, {
+        wallpaper: numero,
+      });
   }
 
   return (
@@ -152,10 +178,10 @@ export default function DashboardComponent() {
             <div className="container-fluid text-center">
               <div className="row">
                 <div className="col-md-9">
-                  <LeftComponent userConfig={config}></LeftComponent>
+                  <LeftBoxComponent userConfig={config}></LeftBoxComponent>
                 </div>
                 <div className="col-md-3">
-                  <RightComponent userConfig={config}></RightComponent>
+                  <RightBoxComponent userConfig={config}></RightBoxComponent>
                 </div>
               </div>
             </div>
@@ -177,16 +203,37 @@ export default function DashboardComponent() {
             <Container>
               <Row className="text-center">
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[0])} src="wallpapers/Background1.gif" thumbnail alt="Wallpaper 1"/></a>
+                  <a href="#"><Image onClick={() => wallpaperSetter(0)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background1.png?alt=media&token=787093d3-472b-423b-8f16-9db18a9d461a" thumbnail alt="Wallpaper 1"/></a>
                 </Col>
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[1])} src="wallpapers/Background2.gif" thumbnail alt="Wallpaper 2"/></a>
+                  <a href="#"><Image onClick={() => wallpaperSetter(1)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background2.png?alt=media&token=a598fa9e-ee5e-4a42-96a9-94dd15654d80" thumbnail alt="Wallpaper 2"/></a>
                 </Col>
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[2])} src="wallpapers/Background3.gif" thumbnail alt="Wallpaper 3"/></a>
+                  <a href="#"><Image onClick={() => wallpaperSetter(2)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background3.png?alt=media&token=511d8c64-1a80-4278-8146-5f267c67544c" thumbnail alt="Wallpaper 3"/></a>
                 </Col>
                 <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => setWallpaper(wallpaperList[3])} src="wallpapers/background4.gif" thumbnail alt="Wallpaper 4"/></a>
+                  <a href="#"><Image onClick={() => wallpaperSetter(3)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background4.png?alt=media&token=1181476e-3b98-496c-b127-3e70483ac45a" thumbnail alt="Wallpaper 4"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(4)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background5.png?alt=media&token=23bac672-7d79-48ee-8deb-b30eed62adee" thumbnail alt="Wallpaper 5"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(5)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background6.png?alt=media&token=1eda2b72-405b-4fa6-b04c-db52d714c050" thumbnail alt="Wallpaper 4"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(6)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background7.png?alt=media&token=c891e4db-1e01-44c3-976c-74350a73fc51" thumbnail alt="Wallpaper 4"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(7)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background8.png?alt=media&token=5cc28226-1ef3-422f-97d0-c333470069bc" thumbnail alt="Wallpaper 4"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(8)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background9.png?alt=media&token=3b932de7-57d8-4561-bc1c-f3acfa55cd0f" thumbnail alt="Wallpaper 4"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(9)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background10.png?alt=media&token=477c7571-ac3c-4f66-b0f4-7997898618b7" thumbnail alt="Wallpaper 4"/></a>
+                </Col>
+                <Col className={styles.gif} xs={6} md={4}>
+                  <a href="#"><Image onClick={() => wallpaperSetter(10)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background11.png?alt=media&token=7985c689-f18d-4c7c-af84-5a9f8784238f" thumbnail alt="Wallpaper 4"/></a>
                 </Col>
               </Row>
             </Container>
@@ -214,7 +261,7 @@ export default function DashboardComponent() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control type="password" onChange={(e)=>setPassword(e.target.value)} />
+              <Form.Control id="current-password" type="password" onChange={(e)=>setPassword(e.target.value)} />
             </Form.Group>
             <Button variant="primary" type="submit" onClick={onLogin}>
               Iniciar Sesion
@@ -230,7 +277,7 @@ export default function DashboardComponent() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control type="password" onChange={(e)=>setPassword(e.target.value)} />
+              <Form.Control id="new-password" type="password" onChange={(e)=>setPassword(e.target.value)} />
             </Form.Group>
             <Button variant="primary" type="submit" onClick={onRegister}>
               Submit
