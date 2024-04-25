@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "customNewPage",
+  "version": "1.0",
+  "description": "Redirecciona automáticamente a tu pestaña personalizada.",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "extension.js"
+  },
+  "chrome_url_overrides": {
+    "newtab": "redirect.html"
+  }
+}

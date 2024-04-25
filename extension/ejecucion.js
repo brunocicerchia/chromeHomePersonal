@@ -1,0 +1,1 @@
+window.location.replace("https://chrome-home-personal.vercel.app/");

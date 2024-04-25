@@ -25,7 +25,7 @@ export default function ClockComponent() {
     <div className={styles.container}>
       <div className="align-self-center">
         <div>
-            <h2 style={{fontSize: '4rem'}}>{fecha.hora + ":" + fecha.minutos + ":" + fecha.segundos}</h2>
+            <h2 style={{fontSize: '4rem'}}>{fecha.hora + ":" + fecha.minutos}</h2>
             <h5>{fecha.fecha}</h5>
         </div>
       </div>

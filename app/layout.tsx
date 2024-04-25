@@ -17,6 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head><meta httpEquiv="Cache-Control" content="public, max-age=31536000" />
+        <meta httpEquiv="Pragma" content="public" />
+        <meta httpEquiv="Expires" content="31536000" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

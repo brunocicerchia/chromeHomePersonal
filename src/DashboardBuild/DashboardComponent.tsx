@@ -5,13 +5,15 @@ import FastComponent from "./FastComponent/FastComponent";
 import RightBoxComponent from "./BoxComponent/RightBoxComponent";
 import LeftBoxComponent from "./BoxComponent/LeftBoxComponent";
 import { useState, useEffect } from "react";
+import WallpaperChangeComponent from './Components/WallpaperChangeComponent/WallpaperChangeCompoent';
+
 //login and register imports
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 //Database imports
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, query, where, setDoc, doc, documentId, updateDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, setDoc, doc, documentId, updateDoc } from "firebase/firestore";
 
 //Bootstrap Components
 import Button from 'react-bootstrap/Button';
@@ -24,6 +26,8 @@ import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 
 export default function DashboardComponent() {
+  //WallpaperChangeComponent state
+  const [wallpaperCallback, setWallpaperCallback] = useState();
   
   //Login credential state
   const [email, setEmail] = useState('');
@@ -64,11 +68,18 @@ export default function DashboardComponent() {
         getUserConfig(user.uid);
       } else {
         console.log("No logeado")
-        setWallpaper(wallpaperList[4]);
+        setWallpaper(wallpaperList[
+        //Math.floor(Math.random() * 12)
+        0
+        ]);
         handleShow();
       }
     });
   },[onAuthStateChanged]);
+
+  useEffect(() => {
+    wallpaperSetter(wallpaperCallback)
+  },[wallpaperCallback]);
 
   //Register Function
   const onRegister = async (e) => {
@@ -134,7 +145,6 @@ export default function DashboardComponent() {
 
   //Get user configuration
   const getUserConfig = async (uid: string) => {
-    console.log(uid);
     const q = query(collection(db, "users"), where(documentId(), '==', uid));
 
     const querySnapshot = await getDocs(q);
@@ -145,11 +155,18 @@ export default function DashboardComponent() {
     });
   }
 
-  //Currency Setter
+  //Wallpaper Setter
   const wallpaperSetter = (numero) => {
-    setWallpaper(wallpaperList[numero])
-    updateWallpaper(numero)
+    if(numero != null) {
+      setWallpaper(wallpaperList[numero])
+      updateWallpaper(numero)
+    }    
   }
+
+   //WallpaperCallbackReceiver
+  const recibirDatos = (datosRecibidos) => {
+    setWallpaperCallback(datosRecibidos);
+  };
 
   //Update currency in database
   const updateWallpaper = async (numero) => {
@@ -163,6 +180,10 @@ export default function DashboardComponent() {
 
   return (
     <div style={styles}>
+      <video controls preload="auto" hidden>
+        <source src={wallpaper} type="video/mp4" />
+        Tu navegador no soporta el elemento de video.
+      </video>
       <div className={styles.modal}>
         <Button onClick={() => setLgShow(true)}>
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -200,43 +221,7 @@ export default function DashboardComponent() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Container>
-              <Row className="text-center">
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(0)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background1.png?alt=media&token=787093d3-472b-423b-8f16-9db18a9d461a" thumbnail alt="Wallpaper 1"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(1)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background2.png?alt=media&token=a598fa9e-ee5e-4a42-96a9-94dd15654d80" thumbnail alt="Wallpaper 2"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(2)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background3.png?alt=media&token=511d8c64-1a80-4278-8146-5f267c67544c" thumbnail alt="Wallpaper 3"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(3)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background4.png?alt=media&token=1181476e-3b98-496c-b127-3e70483ac45a" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(4)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background5.png?alt=media&token=23bac672-7d79-48ee-8deb-b30eed62adee" thumbnail alt="Wallpaper 5"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(5)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background6.png?alt=media&token=1eda2b72-405b-4fa6-b04c-db52d714c050" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(6)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background7.png?alt=media&token=c891e4db-1e01-44c3-976c-74350a73fc51" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(7)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background8.png?alt=media&token=5cc28226-1ef3-422f-97d0-c333470069bc" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(8)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background9.png?alt=media&token=3b932de7-57d8-4561-bc1c-f3acfa55cd0f" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(9)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background10.png?alt=media&token=477c7571-ac3c-4f66-b0f4-7997898618b7" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-                <Col className={styles.gif} xs={6} md={4}>
-                  <a href="#"><Image onClick={() => wallpaperSetter(10)} src="https://firebasestorage.googleapis.com/v0/b/chromehome-eab2d.appspot.com/o/Background11.png?alt=media&token=7985c689-f18d-4c7c-af84-5a9f8784238f" thumbnail alt="Wallpaper 4"/></a>
-                </Col>
-              </Row>
-            </Container>
+          <WallpaperChangeComponent enviarDatos={recibirDatos} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleLogout}>
