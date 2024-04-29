@@ -6,7 +6,15 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 //React component
-export default function WeatherComponent() {
+export default function WeatherComponent(props) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if(props.visible == true) {
+      setVisible(true);
+    }
+  },[]);
+
   //create state for location
   const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [temp, setTemp] = useState({
@@ -71,8 +79,8 @@ export default function WeatherComponent() {
     }
   }, [location]);
 
-  //console.log(temp.code)
-
+  
+  if(visible == true) {
   return (
     <div className={styles.container}>
       <div className={styles.moreInfo}>
@@ -101,4 +109,7 @@ export default function WeatherComponent() {
       </Modal>
     </div>
   );
+} else {
+  return null;
+}
 }

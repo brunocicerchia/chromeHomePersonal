@@ -12,7 +12,8 @@ import { auth, db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 export default function CurrencyComponent(currencyServer) {
-  //console.log(currencyServer)
+  console.log(currencyServer.propss)
+  const [visible, setVisible] = useState(false);
 
   const [currency, setCurrency] = useState({});
   const [currencyPrice, setCurrencyPrice] = useState(0);
@@ -56,6 +57,12 @@ export default function CurrencyComponent(currencyServer) {
         
   }, [currencyServer]);
 
+  useEffect(() => {
+    if(currencyServer.propss == true) {
+      setVisible(true);
+    }
+  },[currencyServer.propss]);
+
   //Currency Setter
   const currencySetter = (numero) => {
           if(currencyList[numero].id == 0) {
@@ -97,6 +104,7 @@ export default function CurrencyComponent(currencyServer) {
         setCurrencyPrice(data.data.rates.USD);
   };
 
+  if(visible == true) {
   return (
       <div className={styles.container}>
         <div className={styles.moreInfo}>
@@ -157,5 +165,8 @@ export default function CurrencyComponent(currencyServer) {
         </Modal>
       </div>
     );  
+  } else {
+    return null;
+  }
 
 }

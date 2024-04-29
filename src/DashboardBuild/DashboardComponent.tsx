@@ -24,8 +24,11 @@ import Col from 'react-bootstrap/Col';
 import VideoComponent from "./Components/VideoComponent/VideoComponent";
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
+import { set } from "date-fns";
 
 export default function DashboardComponent() {
+  //Components Visibility State
+  const [visibilityConfig, setVisibilityConfig] = useState({});
   //WallpaperChangeComponent state
   const [wallpaperCallback, setWallpaperCallback] = useState();
   
@@ -66,11 +69,11 @@ export default function DashboardComponent() {
         console.log("Logeado")
         setUid(user.uid);
         getUserConfig(user.uid);
+        console.log(visibilityConfig);
       } else {
         console.log("No logeado")
         setWallpaper(wallpaperList[
-        //Math.floor(Math.random() * 12)
-        0
+        Math.floor(Math.random() * 12)
         ]);
         handleShow();
       }
@@ -89,9 +92,9 @@ export default function DashboardComponent() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            window.location.reload();
             //Create user in database
             createUserDb(user.uid)
+            window.location.reload();
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -136,7 +139,11 @@ export default function DashboardComponent() {
       // Add a new document in collection "cities" with "LA" as id
       await setDoc(doc(db, "users", uid), {
         currency: 0,
-        wallpaper: 0
+        wallpaper: 0,
+        components: {
+          currencyComponent: true,
+          weatherComponent: true
+        }
       });
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -152,7 +159,13 @@ export default function DashboardComponent() {
       const cfg = doc.data();
       setWallpaper(wallpaperList[cfg.wallpaper]);
       setConfig(cfg.currency);
+      setVisibilityConfig(cfg.components);
     });
+  }
+
+  //Component Visibility Setter
+  const componentSetter = (component, value) => {
+    console.log("nashe")
   }
 
   //Wallpaper Setter
@@ -199,10 +212,10 @@ export default function DashboardComponent() {
             <div className="container-fluid text-center">
               <div className="row">
                 <div className="col-md-9">
-                  <LeftBoxComponent userConfig={config}></LeftBoxComponent>
+                  <LeftBoxComponent userConfig={config} components={visibilityConfig}></LeftBoxComponent>
                 </div>
                 <div className="col-md-3">
-                  <RightBoxComponent userConfig={config}></RightBoxComponent>
+                  <RightBoxComponent userConfig={config} components={visibilityConfig}></RightBoxComponent>
                 </div>
               </div>
             </div>
@@ -210,18 +223,29 @@ export default function DashboardComponent() {
         </div>
       </div>
       <Modal
-        size="lg"
         show={lgShow}
         onHide={() => setLgShow(false)}
-        aria-labelledby="example-modal-sizes-title-lg"
+        fullscreen={true}
+        style={{zIndex: 10000}}
       >
         <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-lg">
-            Select Wallpaper
+          <Modal.Title>
+            Configuracion
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <WallpaperChangeComponent enviarDatos={recibirDatos} />
+        <Modal.Body style={{overflowY: 'scroll'}}>
+          <div className="row">
+            <div className="col-md-2" style={{borderRight: '1px solid black'}}>
+                <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-image" viewBox="0 0 16 16">
+                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                    <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+                  </svg> Fondos
+                </p>
+            </div>
+            <div className="col-md-10">
+                <WallpaperChangeComponent enviarDatos={recibirDatos} />
+            </div>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleLogout}>
@@ -265,7 +289,7 @@ export default function DashboardComponent() {
               <Form.Control id="new-password" type="password" onChange={(e)=>setPassword(e.target.value)} />
             </Form.Group>
             <Button variant="primary" type="submit" onClick={onRegister}>
-              Submit
+              Enviar
             </Button>
           </Form>
         </Modal.Body>

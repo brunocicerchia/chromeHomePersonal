@@ -30,7 +30,7 @@
 
 .modal {
     position: absolute;
-    z-index: 5000;
+    z-index: 10;
     bottom: 10px;
     right: 10px;
 }

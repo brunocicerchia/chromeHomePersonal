@@ -12,7 +12,6 @@ export default function ClockComponent() {
           const date = new Date();
           const fecha = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();  
           setFecha({hora: date.getHours().toString().padStart(2, '0'), minutos: date.getMinutes().toString().padStart(2, '0'), segundos: date.getSeconds().toString().padStart(2, '0'), fecha: fecha}); 
-          console.log("nashe")
       }, 1000);
 
       return () => {
