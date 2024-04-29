@@ -4,9 +4,11 @@ Este proyecto es una aplicación web construida con React y Next.js que reemplaz
 
 ## Características Principales
 
-- **Widgets Informativos:** Proporciona información útil como noticias, datos meteorológicos y citas inspiradoras directamente en la página de nueva pestaña.
+- **Widgets Informativos:** Proporciona información útil como noticias, datos meteorológicos y citas inspiradoras directamente en la página de nueva pestaña. DONE
+- **Seleccion de fondo animados:** Permite elegir entre unos cuantos fondos de pantalla animados. DONE
+- **Acceso rapido a sitios preferidos:** Permite elegir seis sitios web para poder ecceder de forma rapida. DONE
 - **Gestión de Tareas:** Permite a los usuarios crear, editar y eliminar tareas pendientes para ayudarles a mantenerse organizados. IN PROGRESS
-- **Visor de monedas:** Permite ver en tiempo real cualquier paridad tanto de monedas nacionales como crypto. IN PROGRESS
+- **Visor de monedas:** Permite ver en tiempo real cualquier paridad tanto de monedas nacionales como crypto. DONE
 - **Pronóstico del Tiempo:** Muestra el pronóstico del tiempo actual y futuro para la ubicación del usuario, proporcionando información precisa y actualizada. DONE
 - **Marcadores Rápidos:** Ofrece acceso rápido a sitios web favoritos a través de marcadores personalizables y fáciles de gestionar. DONE
 - **Seccion deportes:** Permite visualizar los resutados de tu equipo deseado(incluye tambien esports) IN PROGRESS
