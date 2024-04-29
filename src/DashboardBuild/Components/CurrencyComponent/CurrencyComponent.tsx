@@ -12,7 +12,7 @@ import { auth, db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 export default function CurrencyComponent(currencyServer) {
-  console.log(currencyServer.propss)
+  //console.log(currencyServer.propss)
   const [visible, setVisible] = useState(false);
 
   const [currency, setCurrency] = useState({});
